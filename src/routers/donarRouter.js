@@ -10,8 +10,16 @@ require("dotenv").config();
 
 const { SECRET = "secret" } = process.env;
 
-router.get('/', (req,res)=>{
-    res.send('hello from other side');
+router.get('/', async (req,res)=>{
+    try{
+        const donarData= await Donar.find({availability:true});
+        if(!donarData){
+            res.status(404).send('No donar available');
+        }
+        else res.send(donarData);
+    }catch(e){
+        res.status(404).send(`Not Found!! ${e}`);
+     }
 })
 
  let counter=100;
