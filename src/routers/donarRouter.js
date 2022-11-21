@@ -8,6 +8,23 @@ const isLoggedIn = require('../middlewares/auth');
 const { query } = require('express');
 require("dotenv").config(); 
 
+var group={
+    Aplus:"A+",
+    Aminus:"A-",
+    Bplus:"B+",
+    Bminus:"B+",
+    ABplus:"AB+",
+    ABminus:"AB+",
+    Oplus:"O+",
+    Ominus:"O-",
+    Atwoplus:"A2+",
+    Atwominus:"A2-",
+    AoneBplus:"A1B+",
+    AoneBminus:"A1B-",
+    AtwoBplus:"A2B+",
+    AtwoBminus:"A2B-"
+}
+
 const { SECRET = "secret" } = process.env;
 
 router.get('/', async (req,res)=>{
@@ -30,7 +47,7 @@ router.get('/donars', async(req,res)=>{
         "availability" : true
     }
     if(req.query.bloodGroup){
-        query.bloodGroup=req.query.bloodGroup;
+        query.bloodGroup=group[req.query.bloodGroup];
     }
     if(req.query.district){
         query.district=req.query.district;
@@ -72,7 +89,16 @@ router.get('/donar/:id', async(req,res)=>{
 
 //get data count
 router.get('/count', async(req,res)=>{
-       let counter= await Donar.count({availability:true, ...req.query},(err, ctr)=>{
+    let query={
+        "availability" : true
+    }
+    if(req.query.bloodGroup){
+        query.bloodGroup=group[req.query.bloodGroup];
+    }
+    if(req.query.district){
+        query.district=req.query.district;
+    }
+       let counter= await Donar.count(query,(err, ctr)=>{
               if(err) throw err
               else{
                 res.send({counter: ctr})
