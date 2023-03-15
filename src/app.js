@@ -22,6 +22,6 @@ app.listen(port, ()=>{
 
 setInterval(function(){ 
     request.get('https://inductions2022.onrender.com/');
-  },900000) 
+  },870000) 
   
 //900000 means 15 Minutes 
