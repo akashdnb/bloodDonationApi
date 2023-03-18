@@ -22,7 +22,7 @@ app.listen(port, ()=>{
 
 setInterval(function(){ 
     request.get('https://inductions2022.onrender.com/test', (erroe, response, body)=>{
-      console.log(response.statusCode);
+      console.log(body);
     });
   },870000) 
   
