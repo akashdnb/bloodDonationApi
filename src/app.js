@@ -3,6 +3,7 @@ const donar = require('./models/donar.js');
 const app= express();
 const donarRouter = require('./routers/donarRouter');
 const cors = require('cors');
+const cron = require('node-cron');
 require('./db/conn.js');
 var request = require('request');
 const port= process.env.POST || 3000;
@@ -20,10 +21,15 @@ app.listen(port, ()=>{
 
 //for other app
 
-setInterval(function(){ 
+cron.schedule('*/2 * * * *', () => {
+  //console.log('running a task every two minutes');
+  try {
     request.get('https://inductions2022.onrender.com/test', (erroe, response, body)=>{
       console.log(body);
     });
-  },870000) 
-  
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //900000 means 15 Minutes 
